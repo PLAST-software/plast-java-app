@@ -1,0 +1,138 @@
+<!-- 
+ *****************************************************************************
+ *                                                                           *
+ *   PLAST : Parallel Local Alignment Search Tool                            *
+ *   Copyright (c) 2015 Inria                                                *
+ *                                                                           *
+ *   PLAST is free software; you can redistribute it and/or modify it under  *
+ *   the Affero GPL v3 License                                               *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the            *
+ *   Affero GPL v3 License for more details.                                 *
+ *****************************************************************************
+
+    Ant project file to handle PLAST java exemple. 
+    
+    Requirements: Oracle Java JDK 1.7 or above, Apache Ant 1.9.1 or above.
+    
+    
+    author: Patrick Durand, Inria
+    date: Nov. 18, 2015
+
+-->
+<project name="plast" 
+         basedir="." 
+         default="help" 
+         xmlns:unless="ant:unless">
+
+    <!-- some properties -->
+    <property name="src.dir"     value="src"/>
+    <property name="build.dir"   value="build"/>
+    <property name="pack.dir"     value="package"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${basedir}/thirdparty"/>
+
+	<!-- check ant and java version -->
+    <target name="checkversion">
+        <echo>Current Ant version is: ${ant.version}</echo>
+        <fail message="***   Ant 1.9.1+ required   ***">
+          <!-- ant 1.9.1 introduced unless directive used in this script-->
+          <condition>
+           <not><antversion atleast="1.9.1" /></not>
+          </condition>
+        </fail>
+        <echo>  ok</echo>
+        <echo>Current Java version is: ${ant.java.version}</echo>
+        <fail message="***   Oracle Java SDK 1.7+ not found   ***">
+		  <condition>
+	  		<not>
+	  		  <or>   
+	   		    <equals arg1="1.7" arg2="${ant.java.version}"/>
+	   		    <equals arg1="1.8" arg2="${ant.java.version}"/>
+			    <equals arg1="1.9" arg2="${ant.java.version}"/>
+		      </or>
+		    </not>   
+		</condition>
+        </fail>
+        <echo>  ok</echo>
+    </target>
+	
+	<!-- delete build directory -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+	<!-- compile source code -->
+    <target name="compile" depends="checkversion,clean">
+        <mkdir dir="${classes.dir}"/>
+        <javac 
+          		classpath="${jar.dir}/plast.jar"
+          		destdir="${classes.dir}"
+        		compiler="javac1.7"
+        		includeAntRuntime="false">
+    	  <src path="${src.dir}"/>
+    	</javac>
+    </target>
+
+    <!-- first main target: clean build directory and run a fresh source code compiling -->
+    <target name="cmp" depends="checkversion,clean,compile"/>
+
+    <!-- second main target: run the software -->
+	<target name="run" depends="checkversion">
+		<echo>Compare "./db/query.fa" (query) against "./db/tursiops.fa" (subject) using "plastp".</echo>
+		<echo/>
+		<echo>Running PLAST...</echo>
+		<java classname="org.inria.genscale.plast.BasicPlastRunner" 
+		      fork="yes"
+		      output="${basedir}/output.txt"
+		      errorproperty="jerror">
+         <classpath>
+           <pathelement location="${jar.dir}/plast.jar"/>
+           <pathelement path="${classes.dir}"/>
+         </classpath>
+         <jvmarg value="-Djava.library.path=${basedir}/native"/>
+       </java>
+       <echo>  done.</echo>
+       <echo>Results available in: ${basedir}/output.txt</echo>
+       <echo unless:true="jerror">${jerror}</echo>
+	</target>
+	
+	<!-- prepare a zip for distribution -->
+	<target name="package">
+		<delete dir="${pack.dir}"/>
+		<mkdir dir="${pack.dir}"/>
+		<copy todir="${pack.dir}/src"><!-- source code-->
+			<fileset dir="src"/>
+		</copy>
+		<copy todir="${pack.dir}/thirdparty"><!-- plast jar and dependencies if any-->
+			<fileset dir="thirdparty"/>
+		</copy>
+		<copy todir="${pack.dir}/native"><!-- plast native c++ compiled library -->
+			<fileset dir="native"/>
+		</copy>
+		<copy todir="${pack.dir}/db"><!-- sample fasta files-->
+			<fileset dir="db"/>
+		</copy>
+		<copy file="README" todir="${pack.dir}"/><!-- readme file -->
+		<copy file="LICENSE" todir="${pack.dir}"/><!-- license file -->
+		<copy file="build.xml" todir="${pack.dir}"/><!-- Ant file -->
+		<copy file=".classpath" todir="${pack.dir}"/><!-- Eclipse file -->
+		<copy file=".project" todir="${pack.dir}"/><!-- Eclipse file -->
+		<zip destfile="${basedir}/plast-java.zip"  basedir="${pack.dir}"/>
+	</target>
+	
+	<!-- display some help -->
+    <target name="help">
+		<echo>Ant targets available are:</echo>
+		<echo>  cmp  : compile application</echo>
+		<echo>  run  : run application</echo>
+		<echo>         (require that 'cmp' target be executed first).</echo>
+		<echo/>
+		<echo>Requirements: Oracle Java Runtime 1.7 or above.</echo>
+		<echo>  PLAST software is not guarantee to work appropriately with</echo>
+		<echo>  Java releases *not* provided by Oracle; i.e. avoid using gcj,</echo>
+		<echo>  OpenJDK, etc.</echo>
+    </target>
+</project>
