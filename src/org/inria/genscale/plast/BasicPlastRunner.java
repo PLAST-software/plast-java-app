@@ -1,3 +1,19 @@
+/*
+ *****************************************************************************
+ *                                                                           *
+ *   PLAST : Parallel Local Alignment Search Tool                            *
+ *   Copyright (c) 2015 Inria                                                *
+ *                                                                           *
+ *   PLAST is free software; you can redistribute it and/or modify it under  *
+ *   the Affero GPL v3 License                                               *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the            *
+ *   Affero GPL v3 License for more details.                                 *
+ *****************************************************************************
+ */
+
 package org.inria.genscale.plast;
 
 import java.io.File;
@@ -10,6 +26,18 @@ import org.inria.genscale.dbscan.api.IRequestResult;
 import org.inria.genscale.dbscan.api.RequestAdapter;
 import org.inria.genscale.dbscan.impl.plast.PlastSystem;
 
+/**
+ * A sample application to illustrate the use of PLAST JNI.
+ * 
+ * To run the software, configure the following JRE argument: 
+ * 		-Djava.library.path=${project_loc}/native           (if using Eclipse)
+ *      or
+ * 		-Djava.library.path=/absolute/path/to/native/folder (otherwise)
+ * 
+ * Java runtime required: 1.7 or above
+ * 
+ * @author Patrick Durand, Inria
+ * */
 public class BasicPlastRunner extends RequestAdapter{
 
 	public static void main(String[] args)
