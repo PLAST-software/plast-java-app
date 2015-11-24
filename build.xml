@@ -30,7 +30,7 @@
     <!-- some properties -->
     <property name="src.dir"     value="src"/>
     <property name="build.dir"   value="build"/>
-    <property name="pack.dir"     value="package"/>
+    <property name="pack.dir"    value="${basedir}/package/plast-java"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${basedir}/thirdparty"/>
 
@@ -120,7 +120,7 @@
 		<copy file="build.xml" todir="${pack.dir}"/><!-- Ant file -->
 		<copy file=".classpath" todir="${pack.dir}"/><!-- Eclipse file -->
 		<copy file=".project" todir="${pack.dir}"/><!-- Eclipse file -->
-		<zip destfile="${basedir}/plast-java.zip"  basedir="${pack.dir}"/>
+		<zip destfile="${basedir}/plast-java.zip"  basedir="${pack.dir}/.."/>
 	</target>
 	
 	<!-- display some help -->
