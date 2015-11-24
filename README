@@ -26,12 +26,29 @@ Requirements
 2. Apache Ant 1.9.1 or above.
 
 
+Testing software
+----------------
+
+This project is self contained, so you can easily test it on the command-line. Using a 
+terminal, type in the following commands:
+ant cmp
+ant run
+
+
 About PLAST binary
 ------------------
 
-This project provides pre-compiled binaries of PLAST. Depending on your OS, the provided
-binaries may not work. In such a case, please download source code and compile it on your 
-system. 
+Inria/Genscale Team provide PLAST binaries for "older" systems to enable its use more 
+easily on a larger number of OSX and Linux flavours:
+
++ MacOSX PLAST binary: created on OS 10.7.5 (gcc 4.2) 
+
++ Linux PLAST binary: created on CentOS 6.3 (gcc 4.2.1 ; kernel 2.6.32-279.el6.x86_64 ; 
+  GLIBCXX_3.4.13 ; libstdc++.so.6)  
+
+Provided PLAST binaries should work on more recent releases of Linux and OSX. However,
+depending on your OS, the provided binaries may not work. In such a case, please download 
+source code and compile it on your system. 
 
 Compiling PLAST: http://plast.gforge.inria.fr/docs/cpp/index.html#compile_plast
 
