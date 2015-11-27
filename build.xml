@@ -121,6 +121,8 @@
 		<copy file=".classpath" todir="${pack.dir}"/><!-- Eclipse file -->
 		<copy file=".project" todir="${pack.dir}"/><!-- Eclipse file -->
 		<zip destfile="${basedir}/plast-java.zip"  basedir="${pack.dir}/.."/>
+		<tar destfile="${basedir}/plast-java.tar" basedir="${pack.dir}/.."/>
+		<gzip destfile="${basedir}/plast-java.tar.gz" src="${basedir}/plast-java.tar"/>
 	</target>
 	
 	<!-- display some help -->
