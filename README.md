@@ -42,7 +42,6 @@ Inria/Genscale Team provide PLAST binaries as follows:
 + MacOSX PLAST binary: created on OS 10.7.5 (gcc 4.2) 
 
 + Linux PLAST binary: created on CentOS 6.3 (gcc 4.2.1 ; kernel 2.6.32-279.el6.x86_64 ; GLIBCXX_3.4.13 ; libstdc++.so.6)  
-
 + Windows PLAST binary: created on Windows 7.1 Pro 64bits (MinGW-64/gcc 5.2)
 
 Provided PLAST binaries should work on more recent releases of these OS. However, depending on your system, the provided binaries may not work. In such a case, please download source code and compile it on your system. 
@@ -72,3 +71,9 @@ PLAST project resides at two locations:
 * Github: this is a mirror of the Inria Forge repository
 
 The Github repository is auto-updated from Inria GForge. So all commits have to be done by authorized users/developers on the Inria Forge. Otherwise, consider using "Github/pull request" for any update to be done on PLAST.
+
+Use **stable** release: we always advise you to use the stable release of the software; we consider the master branch as a development branch, so it could be unstable. Recommended procedure:
+
+    git clone ...
+    git checkout stable
+
