@@ -1,6 +1,8 @@
 PLAST - Java project
 ====================
 
+[![Build Status](https://travis-ci.org/PLAST-software/plast-java-app.svg?branch=master)](https://travis-ci.org/PLAST-software/plast-java-app)
+
 This project contains:
 ----------------------
 
