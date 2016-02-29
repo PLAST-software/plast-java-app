@@ -1,9 +1,11 @@
 language: java
-before_install:
-  - sudo apt-get install ant
+before_script:
+  - wget http://mirrors.ircam.fr/pub/apache//ant/binaries/apache-ant-1.9.6-bin.tar.gz -O /tmp/ant-1.9.6.tar.gz
+  - tar -xf /tmp/ant-1.9.6.tar.gz
+  - export PATH=$PWD/apache-ant-1.9.6/bin:$PATH
+  - export ANT_HOME=$PWD/apache-ant-1.9.6
 jdk:
   - oraclejdk8
   - oraclejdk7
 script:
-  ant cmp
-  ant run
+  ant cmp && ant run
