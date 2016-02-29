@@ -40,6 +40,10 @@ import org.inria.genscale.dbscan.impl.plast.PlastSystem;
  * */
 public class BasicPlastRunner extends RequestAdapter{
 
+	private static int nb_hits = 0;
+	private static int nb_hsps = 0;
+	private static int nb_queries = 0;
+	
 	public static void main(String[] args)
 	{
 
@@ -62,6 +66,13 @@ public class BasicPlastRunner extends RequestAdapter{
 		/* not required, but useful: set the number of cores to use. If not set, PLAST uses all available
 		 * cores on the computer.*/
 		props.setProperty (IRequest.NB_PROCESSORS,  "4");
+
+		/* When the two following parameters are not provided, PLAST returns *ALL* hits/hsps. So, we
+		 * restrict the size of the output to 10 hits per query at max and 10 HSPs per hit at max. It is
+		 * worth noting that the latter parameter does not exist in BLAST parameter.
+		 */
+		props.setProperty (IRequest.MAX_HIT_PER_QUERY,  "10");
+		props.setProperty (IRequest.MAX_HSP_PER_HIT,  "10");
 
 		/* PLAST is a bank to bank sequence comparison tool. Its algorithm is made such that hits are not 
 		 * reported using query order as they appear in the query file. Using the following argument forces
@@ -94,6 +105,10 @@ public class BasicPlastRunner extends RequestAdapter{
 		 * applications, such as GUI-based that may run many jobs in the row. Not doing the following
 		 * call may results in weird application behavior, including crash!*/
 		req.removeListener(pr);
+
+		System.out.println("===============");
+		System.out.println("Queries processed: "+nb_queries);
+		System.out.println("Hits found: "+nb_hits+". HSPs found: "+nb_hsps);
 	}
 
 	@Override
@@ -111,18 +126,20 @@ public class BasicPlastRunner extends RequestAdapter{
 			IQueryResult query = result.next ();
 			System.out.println ("\nQUERY   len=" + query.getSequence().getLength() + "  def=" + 
 					query.getSequence().getDefinition());
-
+			nb_queries++;
 			/*... for each query we may have several hits...*/
 			while (query.hasNext())
 			{
 				org.inria.genscale.dbscan.api.IHit hit = query.next ();
 				System.out.println ("   HIT   len=" + hit.getSequence().getLength() + "  def=" + 
 						hit.getSequence().getLength());
+				nb_hits++;
 				/*... for each hit, we may have several HSPs.*/
 				while (hit.hasNext())
 				{
 					IHsp hsp = hit.next ();
 					System.out.println ("       HSP  " + hsp);
+					nb_hsps++;
 				}
 			}
 		}
