@@ -9,10 +9,6 @@ before_script:
   - export PATH=$PWD/apache-ant-1.9.6/bin:$PATH
   - export ANT_HOME=$PWD/apache-ant-1.9.6
 
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-
 script:
   ant cmp && ant run
 
