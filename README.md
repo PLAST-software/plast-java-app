@@ -3,6 +3,8 @@ PLAST - Java project
 
 [![Build Status](https://travis-ci.org/PLAST-software/plast-java-app.svg?branch=master)](https://travis-ci.org/PLAST-software/plast-java-app) - Travis CI using Oracle JDK 1.7 on Linux (Ubuntu 12) and Mac OSX (10.9)
 
+[![License](http://img.shields.io/:license-affero-blue.svg)](http://www.gnu.org/licenses/agpl-3.0.en.html)
+
 This project contains:
 ----------------------
 
